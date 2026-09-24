@@ -27,6 +27,7 @@
 
      Milestone 5. -->
      Corpus I used was campus_life. It contains information from a campus where they have written reviews from mostly students. It would answer questions which can cover multiple documents like "What is cost of laundry?" and other details like "How are walls in Fenwick court?" It can help a new student determine what to do to navigate the university and living situation on campus. 
+     
 
 ## Chunking Strategy
 
@@ -35,6 +36,7 @@
 
 According to https://www.firecrawl.dev/blog/best-chunking-strategies-rag Recursive character splitting at 400-512 tokens with 10-20% overlap is the best default for most use cases. So I chose 2000 characters as its roughly 400-512 tokens with 15% overlap. 
 When reading documents some corpora like campus_life have shorter files while others have very big files like advice_threads. Assignment also pointed out how we can have very small chunks of 2 character and those don't seem like a very good strategy, so I chose recursive character splitting which can avoid very or awkward chunks. This method also maintains semantic structure as it  tries to preserve natural boundaries before it falls back to fixed-size cutting: paragraph breaks: (\n\n) ; line breaks: (\n) ; sentence endings: (. , ? , !) ; spaces ( ). 
+
 
 <!-- What about YOUR documents made you pick these numbers? Short posts and
      long sectioned guides don't want the same chunking, and "800 seemed
