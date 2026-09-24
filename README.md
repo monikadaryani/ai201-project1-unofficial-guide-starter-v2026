@@ -27,7 +27,7 @@
 
      Milestone 5. -->
      Corpus I used was campus_life. It contains information from a campus where they have written reviews from mostly students. It would answer questions which can cover multiple documents like "What is cost of laundry?" and other details like "How are walls in Fenwick court?" It can help a new student determine what to do to navigate the university and living situation on campus. 
-     
+
 
 ## Chunking Strategy
 
@@ -139,7 +139,18 @@ I chose this cut-off because when I checked all the questions, the maximum in th
 
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+| What is cost of laundry? | Yes | 0.3274 |
+| When can you add a course? | Yes | 0.3873 |
+| How many unit tests are in biology 160? | Yes | 0.3294 |
+| When does Halden Hall close? | Yes | 0.373  |
+| How are walls in Fenwick Court? | Yes | 0.4761 |
+| What is the capital of Mongolia? | No | 0.8246 |
+| How do I change the oil in a diesel engine? | No | 0.9340 |
+| Who won the 1994 World Cup? | No | 0.8859 |
+| What is the recommended dosage of ibuprofen for a headache? | No | 0.8442 |
+| How do I write a for loop in Rust? | No | 0.8960 |
+
+The distribution clearly shows that the related questions have their distance \< 0.5 and unrelated questiond have the distance > 0.8. 
 
 ## How I Used AI
 
