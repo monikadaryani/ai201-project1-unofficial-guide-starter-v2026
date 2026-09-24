@@ -26,8 +26,9 @@ contains the answer.
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
 
----
 
+---
+The retrieved chunks could be related and not actually contain the absolute answer. so it is 4 out of 5.
 ## 2. Every answer names a source
 
 Every answer the system produces names at least one source document.
@@ -37,6 +38,7 @@ Every answer the system produces names at least one source document.
      or what would have to go wrong for it not to be? -->
 
 ---
+If we are asking question for a RAG system, we should have at least one source.
 
 ## 3. The relevance gate stops out-of-corpus questions
 
@@ -54,8 +56,11 @@ in at least 4 of 5 tries.
      Was there a clean gap, or did the two groups overlap? -->
 
 ---
+LLMs are just sentence completing models, so they might try to hallucinate some answers, hence we target 4 out of 5 tries.
 
 ## 4. Something about your chunks
+
+Every chunk in my document is less than 2500 characters. Every chunk in my document is equal to or more than 3 characters.
 
 <!-- YOU WRITE THIS ONE.
 
@@ -73,12 +78,14 @@ in at least 4 of 5 tries.
 
 **Why this target:**
 
-
-
 ---
+The chunker breaks after 2300 character including the overlap. It has to be atleast a word or sentence. The msallest sentence is "Go." and that is what I expect to be the smallest chunk if it is in the database.
+
+
 
 ## 5. Your choice
 
+For at least 4 out of 5 questions, time to get answer from pressing enter to the full answer appearing, and check every one is under 5 seconds.
 <!-- YOU WRITE THIS ONE TOO.
 
      Pick something you actually care about getting right. It could be about
@@ -90,10 +97,9 @@ in at least 4 of 5 tries.
 
 
 **Why this target:**
-
-
-
 ---
+The corpus is not large enough to let all answers delay a lot. We say 4 out of 5 if there is model call delay or other technical glitches.
+
 
 <!-- ─────────────────────────────────────────────────────────────────────────
      UNIT 2 — read this before you change anything above.

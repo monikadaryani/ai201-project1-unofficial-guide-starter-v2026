@@ -97,7 +97,73 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
       - Would splitting on paragraph breaks keep more thoughts intact than
         splitting on a character count?
     """
-    return fallback_split(documents)
+    chunk_size = config.CHUNK_SIZE
+    overlap = config.CHUNK_OVERLAP
+    if overlap >= chunk_size:
+        raise ValueError("overlap has to be smaller than chunk_size")
+
+    separators = ("\n\n", "\n", ". ", "? ", "! ", " ", "")
+
+    def split_text(text: str, separator_index: int = 0) -> list[str]:
+        text = text.strip()
+        if not text:
+            return []
+        if len(text) <= chunk_size:
+            return [text]
+
+        if separator_index == len(separators) - 1:
+            return [
+                text[start : start + chunk_size]
+                for start in range(0, len(text), chunk_size)
+            ]
+
+        separator = separators[separator_index]
+        parts = text.split(separator)
+        pieces: list[str] = []
+        for part_index, part in enumerate(parts):
+            if part_index < len(parts) - 1:
+                part += separator
+            pieces.extend(split_text(part, separator_index + 1))
+        return pieces
+
+    def merge_pieces(pieces: list[str]) -> list[str]:
+        merged = []
+        current = ""
+        for piece in pieces:
+            if not current:
+                current = piece
+                continue
+
+            candidate = f"{current} {piece}"
+            if len(candidate) <= chunk_size:
+                current = candidate
+                continue
+
+            merged.append(current)
+            available_overlap = max(0, chunk_size - len(piece) - 1)
+            prefix = current[-min(overlap, available_overlap) :]
+            current = f"{prefix} {piece}".strip() if prefix else piece
+
+            if len(current) > chunk_size:
+                merged.append(current)
+                current = ""
+        if current:
+            merged.append(current)
+        return merged
+
+    chunks: list[Chunk] = []
+    for doc in documents:
+        pieces = merge_pieces(split_text(doc.text))
+        chunks.extend(
+            Chunk(
+                text=piece,
+                source=doc.source,
+                index=index,
+                produced_by="chunker.py::split_documents",
+            )
+            for index, piece in enumerate(pieces)
+        )
+    return chunks
 
 
 def describe(chunks: list[Chunk]) -> str:

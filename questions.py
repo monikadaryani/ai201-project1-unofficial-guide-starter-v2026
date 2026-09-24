@@ -23,7 +23,7 @@ names a target of "4 of 5", and four of three is not a thing.
 
 QUESTIONS = [
     # {"question": "...", "expects": "..."},
-    {"question": "What is cost of laundry?", "expects": "$"},
+    {"question": "What is cost of laundry?", "expects": "$"}, # I just expect it to return the money information because there are so many answers
     {"question": "When can you add a course?", "expects": "end of second week"},
     {"question": "How many unit tests are in biology 160?", "expects": "four"},
     {"question": "When does Halden Hall close?", "expects": "7:00 pm"},
