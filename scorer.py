@@ -23,10 +23,10 @@ def judge(question, expects, answer, results) -> bool:
 
     # Check whether any expected answer matches the actual answer.
     return any(normalize(answer) == normalize(expected) for expected in expects)
-	"""
-
-
-    """
+	
 	LLM as judge
-	rapidfuzz
-	"""
+        rapidfuzz
+		
+		"""
+	
+	
