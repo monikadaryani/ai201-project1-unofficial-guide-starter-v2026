@@ -1,13 +1,15 @@
+import re
+
+from rapidfuzz import fuzz
+
+
+FUZZY_THRESHOLD = 90
+
+
 def judge(question, expects, answer, results) -> bool:
-	"""Determine whether ``answer`` matches an expected answer."""
-	return expects.lower().strip() in answer.lower()
+    """Return whether the answer contains an exact or close expected phrase."""
+    del question, results
 
-	"""
-	def judge(question, expects, answer, results) -> bool:
-    
-    del question, results  # Not used in this check
-
-    # If expects is a single string/bytes, wrap it in a tuple.
     if isinstance(expects, (str, bytes)):
         expects = (expects,)
     else:
@@ -16,17 +18,19 @@ def judge(question, expects, answer, results) -> bool:
         except TypeError:
             expects = (expects,)
 
-    # Normalize by stripping whitespace and lowercasing, so comparisons
-    # are case-insensitive and ignore extra spaces.
     def normalize(value):
-        return str(value).strip().casefold().lower()
+        text = str(value).casefold()
+        text = re.sub(r"(\d{1,2}:\d{2})\s*(am|pm)\b", r"\1 \2", text)
+        words = re.sub(r"[^\w\s]", " ", text).split()
+        return " ".join(word for word in words if word not in {"a", "an", "the"})
 
-    # Check whether any expected answer matches the actual answer.
-    return any(normalize(answer) == normalize(expected) for expected in expects)
-	
-	LLM as judge
-        rapidfuzz
-		
-		"""
+    normalized_answer = normalize(answer)
+    return any(
+        normalized_expected in normalized_answer
+        or fuzz.token_set_ratio(normalized_expected, normalized_answer)
+        >= FUZZY_THRESHOLD
+        for expected in expects
+        if (normalized_expected := normalize(expected))
+    )
 	
 	

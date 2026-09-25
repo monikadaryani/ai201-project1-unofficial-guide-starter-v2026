@@ -249,16 +249,19 @@ def generate(prompt: str, system: str | None = None, cache: bool = True) -> str:
         except Exception as exc:  # noqa: BLE001 — surfaced below
             last_error = exc
             message = str(exc).lower()
-            rate_limited = (
+            retryable = (
                 "429" in message
+                or "503" in message
                 or "resource" in message and "exhaust" in message
                 or "rate" in message and "limit" in message
+                or "unavailable" in message
+                or "high demand" in message
             )
-            if not rate_limited:
+            if not retryable:
                 raise
             backoff = 2 ** attempt
             print(
-                f"  [rate limit] service pushed back. Retrying in {backoff}s "
+                f"  [service busy] request was temporarily unavailable. Retrying in {backoff}s "
                 f"(attempt {attempt + 1} of {config.MAX_RETRIES}).",
                 file=sys.stderr,
                 flush=True,
