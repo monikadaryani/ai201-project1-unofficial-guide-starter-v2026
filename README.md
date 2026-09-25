@@ -272,14 +272,16 @@ I updated the criteria 5 text because there is no way to find how long one would
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 5/5  | 5/5 | 5/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunk size | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. Time to generate| 5/5 | 5/5 | 5/5 | 5/5 | MET |
+
 
 **Did it help?**
 
+Yes it did help because I updated the criteria itself and also didn't have the 503 errors this time. 
 <!-- Say plainly whether it did, and how you know. If it made things worse,
      say that — a change that backfired, honestly reported, earns full credit
      and is more interesting than one that worked. What matters is that you can
@@ -296,6 +298,7 @@ I updated the criteria 5 text because there is no way to find how long one would
      not.
 
      Milestone 5. -->
+Nothing is still broken. Just wondering if I can do anything better.
 
 ## What I'd Do Differently
 
@@ -303,3 +306,4 @@ I updated the criteria 5 text because there is no way to find how long one would
      differently, and why?
 
      Milestone 5. -->
+Yes I would write the criteria 5 differently and that's what I did. I would ahve added one with no hallucinations or something too. 
