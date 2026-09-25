@@ -202,7 +202,7 @@ I took help from Claude code to create the recursve character splitting function
 | 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 4. Chunk size | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
-| 5. Time to generate| 4/5 | 3/5 | 5/5 | 5/5 | MISSED |
+| 5. Time to generate| 4/5 | 3/5 | 5/5 | 4/5 | MISSED |
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
@@ -218,14 +218,16 @@ I took help from Claude code to create the recursve character splitting function
      The target has to hold, not show up occasionally.
 
      Milestone 2. -->
+     I am looking at results/run_2026-09-25_1121_before.md here. 
+     4 out of 5 criteria met. One was missed. 
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+| 1 | Retrieved chunk contains the answer | MET | my questions were based on what I saw in corpus, so I got the answers directly and chunks contained the answers. Met with 5/5  |
+| 2 | Every answer names a source | MET | every answer named the source, and even multliple if required in either brackets or listed as "Source:". MET with 5/5 |
+| 3 | Gate stops out-of-corpus questions | MET | gate refused all 5 unrelated questions. Met with 5/5 |
+| 4 | Chunk size | MET |  I am assuming based on the input files I am seeing as source, but will check once in study hall and get back to it. |
+| 5 | Time to generate | MISSED | In the first run, when the model was not available it took more than 2 minutes for the first question and more than 8 seconds for 2nd question. Hence it missed with 3/5 |
 
 ## Diagnoses
 
@@ -246,6 +248,11 @@ I took help from Claude code to create the recursve character splitting function
      low, and which one you'd tighten and to what.
 
      Milestone 3. -->
+
+     Critera 5 is the only one which was missed. In the first run, when the model was not available it took more than 2 minutes for the first question and more than 8 seconds for 2nd question. which made it 3/5. For second run, all of the results came back before the 5 seconds was up. For third run, again the first question took more than 8s.
+     Important note here is that, criteria 5 failed because i added additional code for 503 fail. It won't run on the original code. 
+
+
 
 ## The Improvement
 
