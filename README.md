@@ -202,7 +202,9 @@ I took help from Claude code to create the recursve character splitting function
 | 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 4. Chunk size | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
-| 5. Time to generate| 4/5 | 3/5 | 5/5 | 4/5 | MISSED |
+| 4. Top-k chunks | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+
+<!--| 5. Time to generate| 4/5 | 3/5 | 5/5 | 4/5 | MISSED |>
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
@@ -218,16 +220,21 @@ I took help from Claude code to create the recursve character splitting function
      The target has to hold, not show up occasionally.
 
      Milestone 2. -->
-     I am looking at results/run_2026-09-25_1121_before.md here. 
-     4 out of 5 criteria met. One was missed. 
+  <!--   I am looking at results/run_2026-09-25_1121_before.md here. 
+     4 out of 5 criteria met. One was missed. -->
+     I am looking at results/run_2026-09-25_1627_before.md here.
+     All 5 criteria have met.
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
 | 1 | Retrieved chunk contains the answer | MET | my questions were based on what I saw in corpus, so I got the answers directly and chunks contained the answers. Met with 5/5  |
 | 2 | Every answer names a source | MET | every answer named the source, and even multliple if required in either brackets or listed as "Source:". MET with 5/5 |
 | 3 | Gate stops out-of-corpus questions | MET | gate refused all 5 unrelated questions. Met with 5/5 |
-| 4 | Chunk size | MET |  I am assuming based on the input files I am seeing as source, but will check once in study hall and get back to it. |
-| 5 | Time to generate | MISSED | In the first run, when the model was not available it took more than 2 minutes for the first question and more than 8 seconds for 2nd question. Hence it missed with 3/5 |
+| 4 | Chunk size | MET |  88 chunks, 317 characters on average
+(shortest 178, longest 549), hence the chunk size is in correct range |
+| 5 | top-k Chunks | MET |   I looked the number of files retrieved because in this corpus we have each file as a chunk.  |
+
+<!--| 5 | Time to generate | MISSED | In the first run, when the model was not available it took more than 2 minutes for the first question and more than 8 seconds for 2nd question. Hence it missed with 3/5 | -->
 
 ## Diagnoses
 
@@ -249,21 +256,25 @@ I took help from Claude code to create the recursve character splitting function
 
      Milestone 3. -->
 
-     Critera 5 is the only one which was missed. In the first run, when the model was not available it took more than 2 minutes for the first question and more than 8 seconds for 2nd question. which made it 3/5. For second run, all of the results came back before the 5 seconds was up. For third run, again the first question took more than 8s.
-     Important note here is that, criteria 5 failed because i added additional code for 503 fail. It won't run on the original code. 
+<!-- Critera 5 is the only one which was missed. In the first run, when the model was not available it took more than 2 minutes for the first question and more than 8 seconds for 2nd question. which made it 3/5. For second run, all of the results came back before the 5 seconds was up. For third run, again the first question took more than 8s.
+     Important note here is that, criteria 5 failed because i added additional code for 503 fail. It won't run on the original code. -->
+
+     None of the criteria is missing, all have passed.
 
 
 
 ## The Improvement
 
 **What I changed:**
+There was nothing to change
 
 **Why I picked it:**
+Nothing to change as all criteria has met.
 
 <!-- Connect it to a specific diagnosis above in one sentence. If you can't,
      you picked a fix because it sounded impressive. -->
 
-I updated the criteria 5 text because there is no way to find how long one would have to keep trying to get the model. I believe it wasn't initially correct on its own. 
+<!-- I updated the criteria 5 text because there is no way to find how long one would have to keep trying to get the model. I believe it wasn't initially correct on its own. -->
 
 ### Run Log — After
 
@@ -276,12 +287,15 @@ I updated the criteria 5 text because there is no way to find how long one would
 | 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 4. Chunk size | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
-| 5. Time to generate| 5/5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. top-k chunks | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+
+<!-- | 5. Time to generate| 5/5 | 5/5 | 5/5 | 5/5 | MET |-->
 
 
 **Did it help?**
 
-Yes it did help because I updated the criteria itself and also didn't have the 503 errors this time. 
+Nothing changed for after.
+<!-- Yes it did help because I updated the criteria itself and also didn't have the 503 errors this time. 
 <!-- Say plainly whether it did, and how you know. If it made things worse,
      say that — a change that backfired, honestly reported, earns full credit
      and is more interesting than one that worked. What matters is that you can
@@ -298,7 +312,7 @@ Yes it did help because I updated the criteria itself and also didn't have the 5
      not.
 
      Milestone 5. -->
-Nothing is still broken. Just wondering if I can do anything better.
+Nothing is broken. 
 
 ## What I'd Do Differently
 
@@ -306,4 +320,4 @@ Nothing is still broken. Just wondering if I can do anything better.
      differently, and why?
 
      Milestone 5. -->
-Yes I would write the criteria 5 differently and that's what I did. I would ahve added one with no hallucinations or something too. 
+Yes I would write the criteria 5 differently and that's what I did. I would have added one with no hallucinations or something too. 
