@@ -198,11 +198,11 @@ I took help from Claude code to create the recursve character splitting function
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. Chunk size | | | | | |
-| 5. Time to generate| | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 5/5  | 5/5 | 5/5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Chunk size | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. Time to generate| 4/5 | 3/5 | 5/5 | 5/5 | MISSED |
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
