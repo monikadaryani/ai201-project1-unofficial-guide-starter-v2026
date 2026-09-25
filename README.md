@@ -263,6 +263,8 @@ I took help from Claude code to create the recursve character splitting function
 <!-- Connect it to a specific diagnosis above in one sentence. If you can't,
      you picked a fix because it sounded impressive. -->
 
+I updated the criteria 5 text because there is no way to find how long one would have to keep trying to get the model. I believe it wasn't initially correct on its own. 
+
 ### Run Log — After
 
 <!-- Same format, same five criteria, three runs each.

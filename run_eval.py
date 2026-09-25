@@ -35,6 +35,7 @@ you a scorer; you'd learn nothing from it.
 import argparse
 import datetime as dt
 import sys
+import time
 from pathlib import Path
 
 import config
@@ -109,14 +110,19 @@ def main():
 
         run_results = []
         for run in range(1, args.runs + 1):
+            started_at = time.perf_counter()
             answer, results, decision = run_once(
                 question, top_k, threshold, corpus, args.variant
             )
+            duration_seconds = time.perf_counter() - started_at
             passed = judge(question, expects, answer, results) if judge else None
             run_results.append(passed)
 
             mark = {True: "pass", False: "fail", None: "—"}[passed]
-            print(f"  run {run}: {mark}  (best distance {decision.best_distance:.3f})")
+            print(
+                f"  run {run}: {mark}  "
+                f"({duration_seconds:.2f}s, best distance {decision.best_distance:.3f})"
+            )
 
             transcript.append(
                 {
@@ -126,6 +132,7 @@ def main():
                     "sources": sorted({r.source for r in results}),
                     "best_distance": decision.best_distance,
                     "gate_passed": decision.passed,
+                    "duration_seconds": duration_seconds,
                 }
             )
 
@@ -254,6 +261,7 @@ def write_report(rows, transcript, gate_rows, args, corpus, top_k, threshold, sc
             f"- Best distance: {entry['best_distance']:.4f} "
             f"({'passed' if entry['gate_passed'] else 'refused by'} the gate)",
             f"- Sources retrieved: {', '.join(entry['sources']) or 'none'}",
+            f"- Time taken: {entry['duration_seconds']:.2f} seconds",
             "",
             "```",
             entry["answer"],

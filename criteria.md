@@ -85,7 +85,13 @@ The chunker breaks after 2300 character including the overlap. It has to be atle
 
 ## 5. Your choice
 
+Original:
+
 For at least 4 out of 5 questions, time to get answer from pressing enter to the full answer appearing, and check every one is under 5 seconds.
+
+New criteria :
+For at least 4 out of 5 questions, once a model is found, time to get full answer appearing is under 5 seconds.
+
 <!-- YOU WRITE THIS ONE TOO.
 
      Pick something you actually care about getting right. It could be about
@@ -98,8 +104,10 @@ For at least 4 out of 5 questions, time to get answer from pressing enter to the
 
 **Why this target:**
 ---
+Original: 
 The corpus is not large enough to let all answers delay a lot. We say 4 out of 5 if there is model call delay or other technical glitches.
-
+New criteria :
+The corpuses are small enough to find the right answer, I underestimated the model call delayed in case of high spikes, so now we measure time after we have found the model.
 
 <!-- ─────────────────────────────────────────────────────────────────────────
      UNIT 2 — read this before you change anything above.
