@@ -202,13 +202,63 @@ I took help from Claude code to create the recursve character splitting function
 | 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 4. Chunk size | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
-| 4. Top-k chunks | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. Top-k returns no more than 5 chunks | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
 <!--| 5. Time to generate| 4/5 | 3/5 | 5/5 | 4/5 | MISSED |>
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
      Name the file and function that produced it. -->
+
+### Unit 2 Output Evidence
+
+**Retrieved answer and source citation**
+
+Produced for this run by `results/run_2026-09-25_1627_before.md` (`run_eval.py::main`); retrieval is `store.py::search` and answer generation is `generate.py::answer_from_chunks`:
+
+```text
+Sources retrieved: admin_add_drop_deadline.txt, admin_graduation_requirements.txt, admin_pass_fail_option.txt, advising_registration.txt, course_cs_340.txt
+You can add a course through the end of the second week (admin_add_drop_deadline.txt).
+```
+
+This run retrieved the chunk with the deadline, and the answer names its source.
+
+**Out-of-corpus gate**
+
+Produced by `run_eval.py::check_out_of_scope` and recorded in `results/run_2026-09-25_1627_before.md`:
+
+```text
+Produced by `run_eval.py::check_out_of_scope`, cutoff 0.65. Refused 5 of 5.
+
+| Out-of-scope question | Best distance | Gate |
+|---|---|---|
+| What is the capital of Mongolia? | 0.825 | refused |
+```
+
+**Chunk size output**
+
+Produced by `chunker.py` (`__main__` calling `chunker.py::describe`):
+
+```text
+88 chunks, 317 characters on average (shortest 178, longest 549), produced by chunker.py::split_documents
+```
+
+**Top-k retrieval output**
+
+Produced by `store.py::search`, recorded by `run_eval.py::main` in `results/run_2026-09-25_1627_before.md`:
+
+```text
+- top-k: 5 · relevance cutoff: 0.65
+Sources retrieved: housing_aldridge_hall_laundry.txt, housing_fenwick_court_laundry.txt, housing_innisfree_hall_laundry.txt, housing_morrow_house_laundry.txt, housing_old_brewhouse_laundry.txt
+```
+
+**Run time output**
+
+Measured in `run_eval.py::main` and recorded in `results/run_2026-09-25_1627_before.md`:
+
+```text
+- Time taken: 3.16 seconds
+```
 
 ## Verdicts
 
@@ -232,7 +282,7 @@ I took help from Claude code to create the recursve character splitting function
 | 3 | Gate stops out-of-corpus questions | MET | gate refused all 5 unrelated questions. Met with 5/5 |
 | 4 | Chunk size | MET |  88 chunks, 317 characters on average
 (shortest 178, longest 549), hence the chunk size is in correct range |
-| 5 | top-k Chunks | MET |   I looked the number of files retrieved because in this corpus we have each file as a chunk.  |
+| 5 | Top-k returns no more than 5 chunks | MET | Every question returned five chunks in the baseline, meeting the configured maximum. |
 
 <!--| 5 | Time to generate | MISSED | In the first run, when the model was not available it took more than 2 minutes for the first question and more than 8 seconds for 2nd question. Hence it missed with 3/5 | -->
 
@@ -256,25 +306,24 @@ I took help from Claude code to create the recursve character splitting function
 
      Milestone 3. -->
 
-<!-- Critera 5 is the only one which was missed. In the first run, when the model was not available it took more than 2 minutes for the first question and more than 8 seconds for 2nd question. which made it 3/5. For second run, all of the results came back before the 5 seconds was up. For third run, again the first question took more than 8s.
-     Important note here is that, criteria 5 failed because i added additional code for 503 fail. It won't run on the original code. -->
-
-     None of the criteria is missing, all have passed.
+The original top-k setting returned five chunks per question, at the selected maximum. A separate generation failure occurred when Gemini returned temporary `503 UNAVAILABLE` / “high demand” errors; before the retry fix, `generate.py::generate` treated those as non-retryable and raised them immediately.
 
 
 
 ## The Improvement
 
 **What I changed:**
-There was nothing to change
+For criterion 5, I changed `config.TOP_K` from 5 to 3. I compared the number of results and total retrieved text across all five questions using `store.py::search`. This was retrieval-only and did not call the generation model.
+
+| top-k | Chunks returned per question | Chunks returned across 5 questions | Retrieved text across 5 questions |
+|---|---:|---:|---:|
+| 5 | 5 | 25 | 7,993 characters |
+| 3 | 3 | 15 | 4,674 characters |
+
+At top-k 3, retrieval returned exactly three chunks for each question and reduced total retrieved text by 3,319 characters (41.5%).
 
 **Why I picked it:**
-Nothing to change as all criteria has met.
-
-<!-- Connect it to a specific diagnosis above in one sentence. If you can't,
-     you picked a fix because it sounded impressive. -->
-
-<!-- I updated the criteria 5 text because there is no way to find how long one would have to keep trying to get the model. I believe it wasn't initially correct on its own. -->
+The original top-k setting returned five chunks per question. Reducing it to three directly meets criterion 5 and reduces the amount of context passed toward generation.
 
 ### Run Log — After
 
@@ -287,21 +336,34 @@ Nothing to change as all criteria has met.
 | 2. Every answer names a source | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 3. Gate stops out-of-corpus questions | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
 | 4. Chunk size | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
-| 5. top-k chunks | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. Top-k returns no more than 5 chunks | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
 
 <!-- | 5. Time to generate| 5/5 | 5/5 | 5/5 | 5/5 | MET |-->
 
 
 **Did it help?**
 
-Nothing changed for after.
-<!-- Yes it did help because I updated the criteria itself and also didn't have the 503 errors this time. 
+The historical after run in `results/run_2026-09-25_1636_after.md` completed all 15 in-scope answers successfully and returned five chunks per question, within the criterion's limit. The separate top-k comparison shows the default now returns three chunks per question and reduces retrieved text by 41.5%.
 <!-- Say plainly whether it did, and how you know. If it made things worse,
      say that — a change that backfired, honestly reported, earns full credit
      and is more interesting than one that worked. What matters is that you can
      tell.
 
      Milestone 4. -->
+
+### Second Improvement: Retry Gemini 503 Errors
+
+**What I changed:**
+
+In `generate.py::generate`, I made Gemini `503`, `UNAVAILABLE`, and “high demand” responses retryable with exponential backoff. The retry limit is controlled by `config.MAX_RETRIES` (currently 16).
+
+**Why I picked it:**
+
+This addresses the generation-stage failure described above: a temporary provider outage should get another attempt, while unrelated errors such as authentication failures should still fail immediately.
+
+**Did it help?**
+
+A simulated check made the model call return two `503` errors and then succeed; `generate()` retried twice and returned the successful answer on attempt three. The saved after run did not encounter a live `503`, so it shows no regression in normal runs but does not prove recovery from a real provider outage.
 
 ## What's Still Broken
 

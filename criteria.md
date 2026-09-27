@@ -90,7 +90,7 @@ top-k -> flaky if %, it should return 3 top
 chunking overlap
 guardrails
 -->
-For every question asked, the system returns 5 relevent chunks because our top-k is 5.
+For each of the 5 in-scope questions, retrieval returns no more than 5 chunks.
 
 <!--
 Original:
@@ -112,7 +112,7 @@ For at least 4 out of 5 questions, once a model is found, time to get full answe
 
 **Why this target:**
 ---
-We have set k=5, so the number of documents returned should follow this rule.
+This checks only the number of chunks retrieval returns. Five is the upper limit I originally configured; lowering top-k to 3 is a separate improvement that stays within that limit.
 <!--
 Original: 
 The corpus is not large enough to let all answers delay a lot. We say 4 out of 5 if there is model call delay or other technical glitches.
