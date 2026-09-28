@@ -28,7 +28,7 @@ contains the answer.
 
 
 ---
-The retrieved chunks could be related and not actually contain the absolute answer. so it is 4 out of 5.
+One question has answers in multiple documents and one question has answer in only 2 documents. So there is a chance it doesn't retrieve it.
 
 ## 2. Every answer names a source
 
